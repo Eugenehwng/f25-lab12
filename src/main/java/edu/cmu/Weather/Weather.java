@@ -1,30 +1,38 @@
 package edu.cmu.Weather;
 
+/**
+ * Represents the unit scale for length measurements.
+ */
+enum LengthScale {
+    INCHES,
+    MILLIMETERS
+}
+
 public class Weather {
     private WeatherService weatherService;
-    private boolean inches;
+    private LengthScale lengthScale;
 
     /**
-     * Sets the length scale for rainfall.
+     * Sets the length scale for rainfall measurements.
      *
-     * @param inches if true, sets the scale to inches; if false, sets the scale to millimeters.
+     * @param scale the length scale to use (INCHES or MILLIMETERS)
      */
-    public void setLengthScale(boolean inches) {
-        this.inches = inches;
+    public void setLengthScale(LengthScale scale) {
+        this.lengthScale = scale;
     }
 
     /**
      * Retrieves the rainfall measurement over the last 24 hours from the weather service in the preferred scale.
+     * The weather service returns measurements in millimeters. This method converts to inches if needed.
      * 
-     * @return the rainfall amount. If the measurement is in inches, it returns the value as is.
-     *         If the measurement is not in inches, it converts the value to millimeters.
+     * @return the rainfall amount in the preferred scale (inches or millimeters)
      */
     public double getRainfall() {
-        double wsRainfall = weatherService.getRainfall();
-        if (inches) {
-            return wsRainfall / 25.4;
+        double wsRainfall = weatherService.getRainfall(); // Returns in millimeters
+        if (lengthScale == LengthScale.INCHES) {
+            return wsRainfall / 25.4; // Convert millimeters to inches
         } else {
-            return wsRainfall;
+            return wsRainfall; // Return in millimeters
         }
     }
 }

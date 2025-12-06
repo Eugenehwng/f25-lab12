@@ -4,18 +4,17 @@ public class LibraryAccount {
     private LibraryService libraryService;
  
     /**
-     * Retrieves an array of checked out books associated with the specified user ID. If the user
-     * has no books checked out, the returned list will be empty. Since multiple households may
-     * share a single account, the user ID is of the form "libraryID:userName".
-     * e.g., "12345:John Doe"
+     * Retrieves an array of checked out books associated with the specified library ID and user name.
+     * If the user has no books checked out, the returned list will be empty. Since multiple households
+     * may share a single account, both the library ID and user name are required to identify the user.
      *
-     * @param userId the ID of the user whose books are to be retrieved
+     * @param libraryId the ID of the library account
+     * @param userName the name of the user whose books are to be retrieved
      * @return an array of Book objects the user has checked out
      */
-    public Book[] getBooks(String userId) {
-        String[] parts = userId.split(":");
-        String name = parts[0];
-        String id = parts[1];
-        return libraryService.getBooks(name, id);        
+    public Book[] getBooks(String libraryId, String userName) {
+        // LibraryService.getBooks expects (name, id) where name is libraryId and id is userName
+        // This matches the original behavior but with clearer parameter separation
+        return libraryService.getBooks(libraryId, userName);        
     }
 }
